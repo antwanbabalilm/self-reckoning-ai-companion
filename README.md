@@ -20,7 +20,7 @@ The Self-Reckoning AI Companion was developed as part of Bab Al Ilm's 7-Day Self
 
 Learn more about the challenge and community:
 
-https://www.skool.com/self-reckoning-2713/about?ref=b00ae0c0b9b54fe09e24f74176ae848e
+https://www.skool.com/self-reckoning-2713
 
 ## Features
 
