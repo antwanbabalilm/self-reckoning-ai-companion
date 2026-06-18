@@ -90,7 +90,8 @@ input[type=text]{font-size:13px;width:100%}
 
 <div id="day-header-area"></div>
 
-<div class="tabs">
+<div class="tabs"> 
+  <div class="tab" onclick="openPrivacy()">Privacy Notice</div>
   <div class="tab active" onclick="switchTab('orient',this)">Orienting</div>
   <div class="tab" onclick="switchTab('journal',this)">Journal prompts</div>
   <div class="tab" onclick="switchTab('ritual',this)">Ritual & arrival</div>
@@ -102,6 +103,36 @@ input[type=text]{font-size:13px;width:100%}
   <div id="orient-content"></div>
 </div>
 
+  <div id="privacy-modal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.45);padding:2rem;overflow:auto">
+  <div style="background:#fff;max-width:760px;margin:3rem auto;padding:2rem;border-radius:20px;line-height:1.7;color:#1f2937;box-shadow:0 10px 40px rgba(0,0,0,.2)">
+    <button onclick="closePrivacy()" style="float:right;border:none;background:#f3f4f6;border-radius:999px;padding:.4rem .7rem;cursor:pointer;font-size:16px">×</button>
+
+    <h2>Privacy Notice</h2>
+    <p><strong>Your self-reckoning belongs to you.</strong></p>
+
+    <p>The Self-Reckoning AI Companion is designed to support personal reflection, journaling, and educational self-inquiry.</p>
+
+    <h3>Your Journal Entries Are Private</h3>
+    <p>Bab Al Ilm does not collect, store, monitor, review, or have access to the personal journal entries you create through this companion.</p>
+
+    <p>Any reflections, notes, or responses you write remain under your control and are stored only within the tools and services you choose to use.</p>
+
+    <h3>Use of Third-Party AI Services</h3>
+    <p>If you choose to copy journal entries or reflections into Claude or any other AI service, those interactions are governed by the privacy policies, terms of service, and data practices of the respective provider.</p>
+
+    <p>Please avoid sharing information that you would not want processed by third-party AI providers.</p>
+
+    <h3>Educational Purpose</h3>
+    <p>The Self-Reckoning AI Companion is intended solely as an educational and reflective practice tool.</p>
+
+    <p>It is not a substitute for professional medical, mental health, psychological, legal, financial, or other professional advice, diagnosis, or treatment.</p>
+
+    <p>If you are experiencing a mental health crisis, emotional distress, or require professional support, please seek assistance from a qualified professional or appropriate emergency resources.</p>
+
+    <h3>Questions</h3>
+    <p>If you have questions regarding privacy, data handling, or the intended use of this tool, please contact Bab Al Ilm before using the Self-Reckoning AI Companion.</p>
+  </div>
+</div>
 <div id="tab-journal" style="display:none">
   <div class="progress-bar"><div class="progress-fill" id="journal-progress"></div></div>
   <div id="journal-content"></div>
@@ -596,7 +627,13 @@ function startNewCycle(){
   d.intention='';
   save(d);activeDay=0;init();
 }
+function openPrivacy(){
+  document.getElementById('privacy-modal').style.display='block';
+}
 
+function closePrivacy(){
+  document.getElementById('privacy-modal').style.display='none';
+}
 function switchTab(name,tab){
   currentTab=name;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
