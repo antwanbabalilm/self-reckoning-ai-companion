@@ -58,7 +58,9 @@ If users choose to copy reflections into Claude or another AI service, those int
 
 ## Status
 
-Pilot tested June 2026.
+Pilot tested during Bab Al Ilm's 7-Day Self-Reckoning Challenge (June 2026).
+
+This project is an active prototype and part of the ongoing development of The Diary of a Mystic and The Self-Reckoning Method..
 
 ## Organization
 
