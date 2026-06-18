@@ -30,6 +30,24 @@ https://www.skool.com/self-reckoning-2713/about?ref=b00ae0c0b9b54fe09e24f74176ae
 * Privacy notice and disclaimer
 * Claude-assisted reflection workflow
 
+## Screenshots
+
+### Orientation
+
+![Orientation](screenshots/orientation.png)
+
+### Journal Prompts
+
+![Journal Prompts](screenshots/journal-prompts.png)
+
+### Evening Self-Accounting
+
+![Evening Self-Accounting](screenshots/evening-self-accounting.png)
+
+### Privacy Notice
+
+![Privacy Notice](screenshots/privacy-notice.png)
+
 ## Privacy
 
 Journal entries remain under the user's control.
