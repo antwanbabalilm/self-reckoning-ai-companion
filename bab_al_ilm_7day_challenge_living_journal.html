@@ -1,0 +1,600 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{padding:1rem 0 3rem;font-size:14px;color:var(--color-text-primary)}
+.cover-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px}
+.org{font-size:12px;color:var(--color-text-tertiary);letter-spacing:.04em}
+.live-badge{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:5px 12px;font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.day-nav{display:flex;gap:5px;margin-bottom:1.25rem;flex-wrap:wrap}
+.dn{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:1px}
+.dn.today{border-color:#5DCAA5;color:#0F6E56}
+.dn.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.dn.done{background:var(--color-background-secondary);border-color:#5DCAA5}
+.dn .dn-num{font-size:10px;opacity:.7}
+.day-header{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1rem}
+.day-theme{font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;font-family:var(--font-serif)}
+.day-q{font-size:13px;color:var(--color-text-secondary);font-style:italic;margin-bottom:.5rem}
+.day-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.day-pill{font-size:11px;padding:2px 9px;border-radius:20px;background:#E1F5EE;color:#0F6E56}
+.day-pill.today-pill{background:#FAEEDA;color:#854F0B}
+.cycle-note{font-size:11px;color:var(--color-text-tertiary)}
+.tabs{display:flex;gap:5px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab{font-size:12px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s}
+.tab.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.section-label{font-size:10px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;margin-bottom:10px}
+.orient{font-size:13px;color:var(--color-text-secondary);line-height:1.75;margin-bottom:1rem;border-left:2px solid var(--color-border-tertiary);padding-left:10px;font-style:italic;border-radius:0}
+.q-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;margin-bottom:8px}
+.q-num{font-size:11px;color:#1D9E75;font-weight:500;margin-bottom:3px}
+.q-text{font-size:13px;color:var(--color-text-primary);font-weight:500;margin-bottom:4px;line-height:1.45}
+.q-hint{font-size:11px;color:var(--color-text-tertiary);margin-bottom:5px;line-height:1.5}
+textarea{width:100%;font-size:13px;min-height:56px;resize:vertical;border-radius:var(--border-radius-md);padding:.5rem .75rem;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);font-family:var(--font-sans);line-height:1.6}
+textarea:focus{outline:none;border-color:#1D9E75}
+input[type=text]{font-size:13px;width:100%}
+.ritual-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-top:0.5px solid var(--color-border-tertiary);cursor:pointer}
+.r-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid #1D9E75;margin-top:3px;transition:background .12s}
+.r-name{font-size:13px;color:var(--color-text-primary);font-weight:500;width:110px;flex-shrink:0}
+.r-desc{font-size:11px;color:var(--color-text-tertiary);line-height:1.5;flex:1}
+.sl-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sl-row label{font-size:12px;color:var(--color-text-secondary);width:140px;flex-shrink:0}
+.sl-row span{font-size:14px;font-weight:500;min-width:24px}
+.divider{height:.5px;background:var(--color-border-tertiary);margin:1rem 0}
+.closing-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;font-size:13px;color:var(--color-text-secondary);line-height:1.75;font-style:italic;margin-top:8px;border-radius:0;border-left:3px solid #1D9E75}
+.progress-bar{height:3px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:1rem;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px;background:#1D9E75;transition:width .3s}
+.btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:10px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1rem}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 13px}
+.mlabel{font-size:11px;color:var(--color-text-tertiary);margin-bottom:3px}
+.mval{font-size:18px;font-weight:500;color:var(--color-text-primary)}
+.week-summary-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:.5px solid var(--color-border-tertiary)}
+.dot-grid{display:flex;gap:4px;flex-wrap:wrap}
+.d-dot{width:10px;height:10px;border-radius:50%;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary)}
+.d-dot.filled{background:#1D9E75;border-color:#1D9E75}
+.intention-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:1rem;border-left:3px solid #AFA9EC;border-radius:0}
+.intention-text{font-size:13px;color:var(--color-text-secondary);font-style:italic;line-height:1.7}
+.quote-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px 18px;text-align:center;margin-top:1rem}
+.quote-text{font-size:14px;color:var(--color-text-secondary);font-style:italic;line-height:1.8;font-family:var(--font-serif)}
+.quote-attr{font-size:12px;color:var(--color-text-tertiary);margin-top:6px}
+</style>
+
+<div class="root">
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Bab Al Ilm 7-Day Self-Reckoning Challenge — living interactive journal with rotating 7-day cycle, daily prompts, evening muhasaba, ritual builder, and week summary</h2>
+
+<div class="cover-bar">
+  <span class="org">THE DIARY OF A MYSTIC · BAB AL ILM</span>
+  <span class="live-badge" id="live-date"></span>
+</div>
+
+<div class="day-nav" id="day-nav"></div>
+
+<div id="day-header-area"></div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('orient',this)">Orienting</div>
+  <div class="tab" onclick="switchTab('journal',this)">Journal prompts</div>
+  <div class="tab" onclick="switchTab('ritual',this)">Ritual & arrival</div>
+  <div class="tab" onclick="switchTab('evening',this)">Evening self-accounting</div>
+  <div class="tab" onclick="switchTab('week',this)">Week view</div>
+</div>
+
+<div id="tab-orient">
+  <div id="orient-content"></div>
+</div>
+
+<div id="tab-journal" style="display:none">
+  <div class="progress-bar"><div class="progress-fill" id="journal-progress"></div></div>
+  <div id="journal-content"></div>
+  <div class="btn-row">
+    <button onclick="fireJournal()">Reflect on today's theme ↗</button>
+  </div>
+</div>
+
+<div id="tab-ritual" style="display:none">
+  <div class="card">
+    <div class="section-label">Build your ritual — design it once, repeat it faithfully</div>
+    <div class="orient">A ritual is not superstition. It is an act of preparation — a signal to your whole system that something real is about to happen. Choose what genuinely quiets you and repeat it each evening before you write.</div>
+    <div id="ritual-options"></div>
+  </div>
+  <div class="card">
+    <div class="section-label">My ritual — design it here</div>
+    <div class="q-card">
+      <div class="q-text">Where will I sit?</div>
+      <textarea id="ritual-where" placeholder="A specific place. The body responds to familiarity." oninput="saveRitual()"></textarea>
+    </div>
+    <div class="q-card">
+      <div class="q-text">What will I do first to arrive?</div>
+      <textarea id="ritual-first" placeholder="Breath, music, candle — what is the threshold?" oninput="saveRitual()"></textarea>
+    </div>
+    <div class="q-card">
+      <div class="q-text">What is my cue that the practice has begun?</div>
+      <textarea id="ritual-cue" placeholder="The moment you cross from ordinary time into intentional time." oninput="saveRitual()"></textarea>
+    </div>
+  </div>
+</div>
+
+<div id="tab-evening" style="display:none">
+  <div class="card">
+    <div class="section-label">Evening self-accounting · complete after your ritual, at day's end</div>
+    <div class="orient" id="evening-orient-label">Sit quietly. Let the events of the day pass through your mind in reverse — most recent to morning. Do not judge. Simply observe.</div>
+    <div class="progress-bar"><div class="progress-fill" id="evening-progress"></div></div>
+    <div id="muhasaba-qs"></div>
+  </div>
+  <div class="card">
+    <div class="section-label">Integration · wins, lessons & transmission</div>
+    <div class="q-card">
+      <div class="q-num">W</div>
+      <div class="q-text">Today's wins — what moved the mission forward?</div>
+      <textarea id="ev-wins" placeholder="Name even the small ones." oninput="saveEvening();updateEP()"></textarea>
+    </div>
+    <div class="q-card">
+      <div class="q-num">L</div>
+      <div class="q-text">Today's lessons — what did you witness in yourself?</div>
+      <textarea id="ev-lessons" placeholder="No judgment — only seeing." oninput="saveEvening();updateEP()"></textarea>
+    </div>
+    <div class="q-card">
+      <div class="q-num">T</div>
+      <div class="q-text">Did you transmit something real today?</div>
+      <div class="q-hint">A post, a teaching, a presence — something from your actual inner life.</div>
+      <textarea id="ev-transmission" placeholder="What was it? Or: what prevented it?" oninput="saveEvening();updateEP()"></textarea>
+    </div>
+    <div class="divider"></div>
+    <div class="sl-row">
+      <label>Show-up score (1–10)</label>
+      <input type="range" min="1" max="10" step="1" id="ev-showup" oninput="document.getElementById('ev-su-out').textContent=this.value;saveEvening()">
+      <span id="ev-su-out" style="font-size:18px;font-weight:500">7</span>
+    </div>
+    <div class="divider"></div>
+    <div class="closing-box" id="evening-closing"></div>
+    <div class="btn-row">
+      <button onclick="fireEvening()">Submit reflection — get coaching ↗</button>
+      <button onclick="saveEvening()">Save</button>
+      <button onclick="resetEvening()">Reset tonight</button>
+    </div>
+  </div>
+</div>
+
+<div id="tab-week" style="display:none">
+  <div class="card">
+    <div class="section-label">Cycle intention — set once at the start of each 7-day cycle</div>
+    <div class="intention-box" id="intention-display">
+      <div class="intention-text" id="intention-text-display">No intention set yet for this cycle.</div>
+    </div>
+    <textarea id="intention-input" placeholder="Before you begin, write one sentence of intention. Why are you here? What are you hoping to see in yourself this week?" oninput="saveIntention()" style="min-height:44px"></textarea>
+  </div>
+  <div class="g4" id="week-metrics"></div>
+  <div class="card">
+    <div class="section-label">7-day completion map</div>
+    <div id="week-map"></div>
+  </div>
+  <div class="card">
+    <div class="section-label">What actually happened this cycle</div>
+    <div id="week-summary"></div>
+  </div>
+  <div class="quote-box">
+    <div class="quote-text">"Little by little, wean yourself.<br>This is the gist of what I have to say."</div>
+    <div class="quote-attr">— Rumi</div>
+  </div>
+  <div class="btn-row">
+    <button onclick="fireWeekReview()">Get full cycle coaching ↗</button>
+    <button onclick="startNewCycle()">Start new cycle</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+const KEY='babAlIlm7Day_v1';
+const FULL_DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const DAYS_DATA=[
+  {
+    n:'Day 1',theme:'Recognition',q:'"What am I actually noticing?"',
+    orient:'Before anything can change, something must be seen. Most of us move through our days in a managed haze — aware enough to function, not aware enough to notice what is happening inside us as it happens. Tonight, your only job is to sit quietly and ask: What actually moved through me today? Not what you did. What moved through you. What you felt. What pulled at you. What you pushed away.',
+    prompts:[
+      {q:'What was the emotional texture of today?',h:'Not what happened — how did it feel to move through it?'},
+      {q:'Name one moment when you noticed something shift inside you.',h:'A tightening, a softening, a flare. What was happening around you when it shifted?'},
+      {q:'Was there anything you felt today that you didn\'t fully acknowledge in the moment?',h:'What was it?'},
+      {q:'What are you noticing right now, as you sit with these questions?',h:''},
+    ],
+    closing:'You do not have to fix what you saw today.\nYou only had to see it.\nThat is enough. Come back tomorrow.'
+  },
+  {
+    n:'Day 2',theme:'Regulation',q:'"Where did I react instead of respond?"',
+    orient:'There is a difference between reacting and responding. A reaction is automatic — it happens before you\'ve had a chance to choose. A response comes from somewhere that has paused, even for a fraction of a second, before moving. Most of us believe we respond more than we do. Today\'s practice is not to judge your reactions. Reactions are signals — information about where your nervous system has been trained to protect you, where old patterns are still running.',
+    prompts:[
+      {q:'Think of one moment today when you reacted — snapped, withdrew, deflected, over-explained, went quiet.',h:'What triggered it? What was the feeling underneath the reaction?'},
+      {q:'If you had paused for just two breaths in that moment, what might you have chosen instead?',h:''},
+      {q:'Is there a pattern in what triggers your automatic reactions?',h:'Where does it show up most: work, relationships, alone time?'},
+      {q:'What does it feel like in your body just before you react?',h:'Where do you feel it first?'},
+    ],
+    closing:'A reaction is not a character flaw.\nIt is a place where the practice has not yet arrived.\nYou are bringing it there now. Come back tomorrow.'
+  },
+  {
+    n:'Day 3',theme:'Reflection',q:'"What pattern is trying to show itself?"',
+    orient:'Reflection is not only for the single moment, but for the thread that runs through moments. Patterns are often quiet and persistent — the way you go silent when you feel unseen, the way you stay busy so stillness doesn\'t catch you. A pattern is not a sentence. It is a message — something in you has been trying to survive, and this is the strategy it developed. Today, simply name it clearly, without defense, without self-attack.',
+    prompts:[
+      {q:'Looking back across the last three days, and your life more broadly, what is one recurring pattern you keep bumping into?',h:'Describe it as clearly as you can.'},
+      {q:'When did this pattern first appear? What was it originally protecting you from?',h:''},
+      {q:'What does this pattern cost you now? What would it look like to begin moving differently?',h:''},
+      {q:'Write one honest sentence.',h:'"I tend to _______ when I feel _______."'},
+    ],
+    closing:'To name a pattern clearly is not to surrender to it.\nIt is the first act of freedom from it.\nWell done. Come back tomorrow.'
+  },
+  {
+    n:'Day 4',theme:'Return',q:'"What do I need to carry differently?"',
+    orient:'This is the point where the initial energy fades and the habit has not yet taken root. This is where the practice begins. The Sufi concept of tawbah is more precisely understood as turning back — not self-punishment for having wandered, but the act of reorienting toward what matters. You turned away. You turned back. That is the whole cycle. That is the practice.',
+    prompts:[
+      {q:'What have you drifted from recently?',h:'An intention, a practice, a relationship, a quality in yourself that matters to you.'},
+      {q:'What would it look like to return to it tomorrow — not perfectly, but honestly?',h:'What is the smallest real step?'},
+      {q:'Is there someone you need to repair something with?',h:'Sometimes return is simply showing up differently once.'},
+      {q:'What do you want to carry into the second half of this week that you haven\'t been carrying fully?',h:''},
+    ],
+    closing:'Returning is not weakness.\nIt is the whole practice in a single word.\nTurn back. Come back tomorrow.'
+  },
+  {
+    n:'Day 5',theme:'Deepening',q:'"What is underneath the surface?"',
+    orient:'Most of what we examine in daily reflection is the surface layer — reactions, moods, behaviors. But there is a layer beneath: the beliefs and stories we carry that generate the reactions in the first place. You do not just react to events — you react to your interpretation of events, built on a story you\'ve been carrying, often for a very long time. Today\'s practice is to find the story underneath the pattern.',
+    prompts:[
+      {q:'Take the pattern you named on Day 3. Ask: what does this pattern believe?',h:'"I do this because I believe that _______."'},
+      {q:'Where did that belief come from? When was the first time you learned it was true?',h:''},
+      {q:'Is that belief still accurate? Or is it a conclusion from an old chapter that is still running?',h:''},
+      {q:'If you released that story — simply stopped carrying it — what might become possible?',h:''},
+    ],
+    closing:'The story beneath the pattern is not you.\nIt is what you learned when you were trying to survive.\nYou are allowed to update it. Come back tomorrow.'
+  },
+  {
+    n:'Day 6',theme:'Integration',q:'"Where is the gap closing?"',
+    orient:'Integration happens not in the moment of realization but in the ten thousand small moments afterward — when you act from the new understanding instead of the old reflex. Today you are not learning anything new. You are asking: where is what I have already seen beginning to move into my life? This might be small. A pause before responding. A different tone. A moment of self-compassion instead of self-attack. Small is how it begins. Small is how it lasts.',
+    prompts:[
+      {q:'Look back across this week. Where did you act from awareness instead of reflex — even once, even imperfectly?',h:''},
+      {q:'What has shifted, even slightly, in how you are moving through your days?',h:''},
+      {q:'Where is there still a gap — something you see clearly but haven\'t yet brought into your behavior?',h:'What would the next small step look like?'},
+      {q:'What does this practice feel like in your body when you do it honestly?',h:'What does that feeling tell you?'},
+    ],
+    closing:'You don\'t need a dramatic transformation to prove this is working.\nSmall, real movement is the whole point.\nOne more day. Come back tomorrow.'
+  },
+  {
+    n:'Day 7',theme:'Commitment',q:'"What am I willing to practice?"',
+    orient:'You made it to Day 7. Whatever that looked like. Commitment is not a feeling or a declaration. It is what you discover in hindsight — looking back at what you kept returning to, even when you didn\'t feel like it, even when results were invisible. Self-Reckoning is not designed to be completed. It is designed to be practiced. Daily. Imperfectly. With honesty and without self-attack.',
+    prompts:[
+      {q:'What is the one insight from this week you most want to carry forward?',h:'Write it in a single sentence.'},
+      {q:'What is one concrete practice you are willing to commit to for the next 30 days?',h:'Be specific: what, when, how often.'},
+      {q:'What would it mean for your relationships and inner life if you practiced muhasabah consistently for one year?',h:''},
+      {q:'Write a short letter to yourself — three to five sentences — from the person you are becoming to the person you are now.',h:'What does that version of you want you to know?'},
+    ],
+    closing:'The challenge is complete.\nThe practice is just beginning.\nNot intensity. Consistency.\nNot perfection. Return.\nNot someday. Now.\n\nWe\'re glad you stayed.\n— Antwan & Osama · Bab Al Ilm'
+  },
+];
+
+const MUHASABA_Q=[
+  {n:'1',q:'What actually happened today?',h:'Recall the events plainly, without interpretation.'},
+  {n:'2',q:'What moved me to act as I did?',h:'Notice the intention, impulse, or habit behind your actions.'},
+  {n:'3',q:'Where did my actions produce clear effects?',h:'Observe the relationship between cause and consequence.'},
+  {n:'4',q:'What did I neglect, avoid, or leave undone?',h:''},
+  {n:'5',q:'What does this reveal about my current state of orientation?',h:'Sit with what you see. There is nothing to fix tonight. The purpose is awareness.'},
+];
+
+const RITUALS=[
+  {icon:'ti-wind',n:'Breathwork',d:'Two to three minutes of conscious breathing. A slow exhale activates the parasympathetic nervous system — the place of rest and receptivity.'},
+  {icon:'ti-eye-off',n:'Stillness',d:'Sit. Close your eyes. Let the day settle like sediment in water. Five minutes of genuine stillness before writing is worth more than an hour from a scattered mind.'},
+  {icon:'ti-music',n:'Music',d:'A single instrumental piece played softly becomes, over time, a cue. Choose something without words that opens rather than distracts. Keep it low.'},
+  {icon:'ti-flame',n:'A candle',d:'Fire means: something is happening here. The oldest ritual signal in human history. It asks nothing of you and draws you out of the conceptual mind.'},
+  {icon:'ti-armchair',n:'Your body',d:'Wrap yourself in something warm. Sit somewhere you actually want to be. Close everything else. The body is not separate from the inner life.'},
+];
+
+const WEEK_SUMMARIES=[
+  'You learned to notice what moves through you, rather than only noticing the aftermath.',
+  'You began to see the difference between your reactions and your responses.',
+  'You named a pattern without flinching. That takes courage most people avoid their whole lives.',
+  'You discovered that returning is not failure. It is the practice itself.',
+  'You went beneath the pattern to the story underneath, and began to ask if it still needs to be true.',
+  'You looked for the quiet evidence that something is landing. The gap beginning to close.',
+  'You made a specific, concrete commitment — not a declaration, but a practice.',
+];
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(d){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){}}
+
+function getCycleStart(){
+  const d=load();
+  if(!d.cycleStart)return null;
+  return d.cycleStart;
+}
+
+function setCycleStart(dateStr){
+  const d=load();d.cycleStart=dateStr;save(d);
+}
+
+function todayStr(){
+  const n=new Date();
+  return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
+}
+
+function dateToStr(dt){
+  return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+}
+
+function strToDate(s){const p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+
+function getDayIndex(dateStr){
+  const cs=getCycleStart();
+  if(!cs)return -1;
+  const diff=Math.floor((strToDate(dateStr)-strToDate(cs))/(1000*60*60*24));
+  if(diff<0||diff>6)return -1;
+  return diff;
+}
+
+function getTodayDayIndex(){return getDayIndex(todayStr());}
+
+let activeDay=0;
+let currentTab='orient';
+
+function init(){
+  const now=new Date();
+  const el=document.getElementById('live-date');
+  if(el)el.textContent=FULL_DAYS[now.getDay()]+', '+MONTHS[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+
+  const d=load();
+  if(!d.cycleStart){
+    const JUNE9_2026='2026-06-08';
+    setCycleStart(JUNE9_2026);
+  }
+
+  const todayIdx=getTodayDayIndex();
+  activeDay=todayIdx>=0?todayIdx:0;
+
+  buildDayNav();
+  renderDay(activeDay);
+  loadRitual();
+  loadIntention();
+}
+
+function buildDayNav(){
+  const nav=document.getElementById('day-nav');nav.innerHTML='';
+  const cs=getCycleStart();
+  const todayIdx=getTodayDayIndex();
+  const d=load();
+  DAYS_DATA.forEach((day,i)=>{
+    const btn=document.createElement('div');btn.className='dn'+(i===activeDay?' active':'')+(i===todayIdx&&i!==activeDay?' today':'');
+    const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+i*86400000)):'';
+    const hasData=cs&&d[dateStr]&&(d[dateStr].journal||d[dateStr].evening);
+    if(hasData&&i!==activeDay)btn.classList.add('done');
+    btn.innerHTML='<span class="dn-num">'+day.n+'</span><span>'+day.theme+'</span>';
+    btn.onclick=()=>{activeDay=i;buildDayNav();renderDay(i);switchTabKeep();};
+    nav.appendChild(btn);
+  });
+}
+
+function renderDay(idx){
+  const day=DAYS_DATA[idx];
+  const cs=getCycleStart();
+  const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+idx*86400000)):'';
+  const todayIdx=getTodayDayIndex();
+  const isToday=idx===todayIdx;
+  const hdr=document.getElementById('day-header-area');
+  hdr.innerHTML=`<div class="day-header">
+    <div class="day-theme">${day.theme}</div>
+    <div class="day-q">${day.q}</div>
+    <div class="day-meta">
+      <span class="day-pill">${day.n}</span>
+      ${isToday?'<span class="day-pill today-pill">Today</span>':''}
+      ${dateStr?'<span class="cycle-note">'+dateStr+'</span>':''}
+    </div>
+  </div>`;
+
+  renderOrient(day);
+  renderJournal(day,dateStr);
+  renderEvening(day,dateStr);
+  renderWeek();
+}
+
+function renderOrient(day){
+  const c=document.getElementById('orient-content');
+  c.innerHTML=`<div class="card">
+    <div class="section-label">Orienting</div>
+    <div class="orient">${day.orient}</div>
+    <div style="font-size:12px;color:var(--color-text-tertiary);padding:6px 0">Watch the orientation video in the Skool classroom before continuing, then return here to journal.</div>
+  </div>`;
+}
+
+function renderJournal(day,dateStr){
+  const c=document.getElementById('journal-content');c.innerHTML='';
+  const d=load();const saved=(d[dateStr]&&d[dateStr].journal)||{};
+  day.prompts.forEach((p,i)=>{
+    const card=document.createElement('div');card.className='q-card';
+    card.innerHTML=`<div class="q-num">${String.fromCharCode(65+i)}</div><div class="q-text">${p.q}</div>${p.h?'<div class="q-hint">'+p.h+'</div>':''}<textarea id="jp${i}" placeholder="Write honestly. Raw and real is the only standard." oninput="saveJournal('${dateStr}')">${saved['p'+i]||''}</textarea>`;
+    c.appendChild(card);
+  });
+  updateJP(day,dateStr);
+}
+
+function saveJournal(dateStr){
+  const d=load();if(!d[dateStr])d[dateStr]={};if(!d[dateStr].journal)d[dateStr].journal={};
+  const day=DAYS_DATA[activeDay];
+  day.prompts.forEach((_,i)=>{const el=document.getElementById('jp'+i);if(el)d[dateStr].journal['p'+i]=el.value;});
+  save(d);updateJP(day,dateStr);buildDayNav();
+}
+
+function updateJP(day,dateStr){
+  const d=load();const saved=(d[dateStr]&&d[dateStr].journal)||{};
+  let filled=0;day.prompts.forEach((_,i)=>{if((saved['p'+i]||'').trim().length>5)filled++;});
+  const pf=document.getElementById('journal-progress');if(pf)pf.style.width=Math.round((filled/day.prompts.length)*100)+'%';
+}
+
+function fireJournal(){
+  const day=DAYS_DATA[activeDay];
+  const cs=getCycleStart();const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+activeDay*86400000)):'today';
+  const d=load();const saved=(d[dateStr]&&d[dateStr].journal)||{};
+  const answers=day.prompts.map((p,i)=>p.q+': "'+(saved['p'+i]||'not answered')+'"').join(' | ');
+  sendPrompt('Bab Al Ilm 7-Day Self-Reckoning Challenge. '+day.n+' — '+day.theme+'. '+day.q+'. Journal answers: '+answers+'. Give me grounded, honest coaching on what these answers reveal and one clear insight to carry forward.');
+}
+
+function buildMuhasabaQs(dateStr){
+  const c=document.getElementById('muhasaba-qs');c.innerHTML='';
+  const d=load();const saved=(d[dateStr]&&d[dateStr].evening)||{};
+  MUHASABA_Q.forEach((q,i)=>{
+    const card=document.createElement('div');card.className='q-card';
+    card.innerHTML=`<div class="q-num">${q.n}</div><div class="q-text">${q.q}</div>${q.h?'<div class="q-hint">'+q.h+'</div>':''}<textarea id="mq${i}" placeholder="Write honestly." oninput="saveEvening();updateEP()">${saved['m'+i]||''}</textarea>`;
+    c.appendChild(card);
+  });
+}
+
+function renderEvening(day,dateStr){
+  const d=load();const saved=(d[dateStr]&&d[dateStr].evening)||{};
+  buildMuhasabaQs(dateStr);
+  ['ev-wins','ev-lessons','ev-transmission'].forEach(id=>{
+    const field=id.replace('ev-','');const el=document.getElementById(id);if(el)el.value=saved[field]||'';
+  });
+  const sv=saved.showup||7;const sel=document.getElementById('ev-showup');if(sel)sel.value=sv;const soel=document.getElementById('ev-su-out');if(soel)soel.textContent=sv;
+  const cb=document.getElementById('evening-closing');
+  if(cb){const lines=day.closing.split('\n');cb.innerHTML=lines.map((l,i)=>i===lines.length-1||l.startsWith('—')?'<strong>'+l+'</strong>':l).join('<br>');}
+  updateEP();
+}
+
+function saveEvening(){
+  const day=DAYS_DATA[activeDay];
+  const cs=getCycleStart();const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+activeDay*86400000)):'today';
+  const d=load();if(!d[dateStr])d[dateStr]={};if(!d[dateStr].evening)d[dateStr].evening={};
+  MUHASABA_Q.forEach((_,i)=>{const el=document.getElementById('mq'+i);if(el)d[dateStr].evening['m'+i]=el.value;});
+  ['wins','lessons','transmission'].forEach(f=>{const el=document.getElementById('ev-'+f);if(el)d[dateStr].evening[f]=el.value;});
+  const sel=document.getElementById('ev-showup');if(sel)d[dateStr].evening.showup=sel.value;
+  save(d);buildDayNav();
+}
+
+function updateEP(){
+  let filled=0,total=0;
+  MUHASABA_Q.forEach((_,i)=>{total++;const el=document.getElementById('mq'+i);if(el&&el.value.trim().length>5)filled++;});
+  ['ev-wins','ev-lessons','ev-transmission'].forEach(id=>{total++;const el=document.getElementById(id);if(el&&el.value.trim().length>5)filled++;});
+  const pf=document.getElementById('evening-progress');if(pf)pf.style.width=Math.round((filled/total)*100)+'%';
+}
+
+function resetEvening(){
+  const cs=getCycleStart();const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+activeDay*86400000)):'today';
+  const d=load();if(d[dateStr])d[dateStr].evening={};save(d);
+  MUHASABA_Q.forEach((_,i)=>{const el=document.getElementById('mq'+i);if(el)el.value='';});
+  ['ev-wins','ev-lessons','ev-transmission'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const sel=document.getElementById('ev-showup');if(sel)sel.value=7;const soel=document.getElementById('ev-su-out');if(soel)soel.textContent='7';
+  updateEP();
+}
+
+function fireEvening(){
+  const day=DAYS_DATA[activeDay];
+  const cs=getCycleStart();const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+activeDay*86400000)):'today';
+  const d=load();const saved=(d[dateStr]&&d[dateStr].evening)||{};
+  const mq=MUHASABA_Q.map((q,i)=>q.q+': "'+(saved['m'+i]||'not answered')+'"').join(' | ');
+  const score=saved.showup||7;
+  sendPrompt('Bab Al Ilm evening self-accounting — '+day.n+' '+day.theme+'. Show-up score: '+score+'/10. Muhasaba: '+mq+'. Wins: "'+(saved.wins||'none')+'". Lessons: "'+(saved.lessons||'none')+'". Transmission: "'+(saved.transmission||'none')+'". Give me one clear insight and one action for tomorrow. Direct, grounded, no flattery.');
+}
+
+function buildRitualList(){
+  const c=document.getElementById('ritual-options');if(!c)return;c.innerHTML='';
+  const d=load();const checked=d.ritualChecked||{};
+  RITUALS.forEach((r,i)=>{
+    const row=document.createElement('div');row.className='ritual-row';
+    const dot=document.createElement('div');dot.className='r-dot';dot.id='rdot'+i;
+    if(checked[i])dot.style.background='#1D9E75';
+    row.onclick=()=>{const dd=load();if(!dd.ritualChecked)dd.ritualChecked={};dd.ritualChecked[i]=!dd.ritualChecked[i];save(dd);dot.style.background=dd.ritualChecked[i]?'#1D9E75':'transparent';row.style.opacity=dd.ritualChecked[i]?'0.55':'1';};
+    if(checked[i])row.style.opacity='0.55';
+    const nm=document.createElement('span');nm.className='r-name';nm.innerHTML=`<i class="ti ${r.icon}" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>${r.n}`;
+    const desc=document.createElement('span');desc.className='r-desc';desc.textContent=r.d;
+    row.appendChild(dot);row.appendChild(nm);row.appendChild(desc);
+    c.appendChild(row);
+  });
+}
+
+function loadRitual(){
+  buildRitualList();
+  const d=load();const r=d.ritual||{};
+  ['ritual-where','ritual-first','ritual-cue'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=r[id.replace('ritual-','')]||'';});
+}
+
+function saveRitual(){
+  const d=load();d.ritual={where:document.getElementById('ritual-where')?.value||'',first:document.getElementById('ritual-first')?.value||'',cue:document.getElementById('ritual-cue')?.value||''};save(d);
+}
+
+function saveIntention(){
+  const d=load();d.intention=document.getElementById('intention-input')?.value||'';save(d);
+  const el=document.getElementById('intention-text-display');if(el)el.textContent=d.intention||'No intention set yet for this cycle.';
+}
+
+function loadIntention(){
+  const d=load();
+  const el=document.getElementById('intention-input');if(el)el.value=d.intention||'';
+  const disp=document.getElementById('intention-text-display');if(disp)disp.textContent=d.intention||'No intention set yet for this cycle.';
+}
+
+function renderWeek(){
+  const cs=getCycleStart();const d=load();
+  let totalJ=0,totalE=0,active=0;
+  const wm=document.getElementById('week-map');if(!wm)return;wm.innerHTML='';
+  DAYS_DATA.forEach((day,i)=>{
+    const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+i*86400000)):'';
+    const hasJ=d[dateStr]&&d[dateStr].journal&&Object.values(d[dateStr].journal).some(v=>v.trim().length>5);
+    const hasE=d[dateStr]&&d[dateStr].evening&&(d[dateStr].evening.wins||'').trim().length>5;
+    if(hasJ)totalJ++;if(hasE)totalE++;if(hasJ||hasE)active++;
+    const row=document.createElement('div');row.className='week-summary-row';row.style.cursor='pointer';
+    row.onclick=()=>{activeDay=i;buildDayNav();renderDay(i);switchTab('journal',document.querySelectorAll('.tab')[1]);};
+    row.innerHTML=`<span style="font-size:12px;font-weight:500;color:var(--color-text-primary);width:80px;flex-shrink:0">${day.n}</span><span style="font-size:13px;color:var(--color-text-secondary);flex:1">${day.theme}</span><div class="dot-grid"><div class="d-dot${hasJ?' filled':''}" title="Journal"></div><div class="d-dot${hasE?' filled':''}" title="Evening"></div></div>`;
+    wm.appendChild(row);
+  });
+  const wmet=document.getElementById('week-metrics');if(wmet){wmet.innerHTML='';
+    [{l:'Days active',v:active},{l:'Journals written',v:totalJ},{l:'Evenings complete',v:totalE},{l:'Cycle day',v:(getTodayDayIndex()>=0?getTodayDayIndex()+1:'—')+' / 7'}].forEach(x=>{
+      const dd=document.createElement('div');dd.className='metric';dd.innerHTML=`<div class="mlabel">${x.l}</div><div class="mval">${x.v}</div>`;wmet.appendChild(dd);
+    });
+  }
+  const ws=document.getElementById('week-summary');if(ws){ws.innerHTML='';
+    DAYS_DATA.forEach((day,i)=>{
+      const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+i*86400000)):'';
+      const hasData=d[dateStr]&&(d[dateStr].journal||d[dateStr].evening);
+      const row=document.createElement('div');row.style.cssText='padding:6px 0;border-top:.5px solid var(--color-border-tertiary)';
+      row.innerHTML=`<span style="font-size:12px;font-weight:500;color:var(--color-text-primary)">${day.n} · ${day.theme}</span><span style="font-size:12px;color:${hasData?'var(--color-text-secondary)':'var(--color-text-tertiary)'}"> — ${hasData?WEEK_SUMMARIES[i]:'Not yet completed.'}</span>`;
+      ws.appendChild(row);
+    });
+  }
+}
+
+function fireWeekReview(){
+  const cs=getCycleStart();const d=load();
+  const summary=DAYS_DATA.map((day,i)=>{
+    const dateStr=cs?dateToStr(new Date(strToDate(cs).getTime()+i*86400000)):'';
+    const hasJ=d[dateStr]&&d[dateStr].journal;const hasE=d[dateStr]&&d[dateStr].evening;
+    return day.n+' '+day.theme+': '+(hasJ?'journaled':'not journaled')+', '+(hasE?'evening complete':'evening not done');
+  }).join(' | ');
+  sendPrompt('Bab Al Ilm 7-Day Self-Reckoning Challenge — full cycle review. Intention: "'+(d.intention||'not set')+'". Progress: '+summary+'. Give me a grounded, honest assessment of what this cycle revealed and what to carry into the next one. Direct, no flattery.');
+}
+
+function startNewCycle(){
+  const d=load();
+  const today=todayStr();
+  d.cycleStart=today;
+  DAYS_DATA.forEach((_,i)=>{
+    const dateStr=dateToStr(new Date(strToDate(today).getTime()+i*86400000));
+    delete d[dateStr];
+  });
+  d.intention='';
+  save(d);activeDay=0;init();
+}
+
+function switchTab(name,tab){
+  currentTab=name;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  if(tab)tab.classList.add('active');
+  ['orient','journal','ritual','evening','week'].forEach(v=>{
+    const el=document.getElementById('tab-'+v);if(el)el.style.display=v===name?'':'none';
+  });
+  if(name==='ritual')buildRitualList();
+  if(name==='week')renderWeek();
+}
+
+function switchTabKeep(){
+  const tabs=['orient','journal','ritual','evening','week'];
+  const idx=tabs.indexOf(currentTab);
+  const tabEls=document.querySelectorAll('.tab');
+  switchTab(currentTab,tabEls[idx]||tabEls[0]);
+}
+
+init();
+</script>
