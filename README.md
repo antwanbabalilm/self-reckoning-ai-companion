@@ -44,6 +44,6 @@ Pilot tested June 2026.
 
 ## Organization
 
-Bab Al Ilm
-The Diary of a Mystic
+Bab Al Ilm -
+The Diary of a Mystic -
 The Self-Reckoning Method
