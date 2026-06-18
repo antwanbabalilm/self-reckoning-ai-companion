@@ -1,5 +1,7 @@
 # Self-Reckoning AI Companion
 
+![7-Day Self-Reckoning Challenge](screenshots/challenge-banner.png)
+
 A Claude-powered reflective learning companion developed for Bab Al Ilm's 7-Day Self-Reckoning Challenge.
 
 ## Overview
